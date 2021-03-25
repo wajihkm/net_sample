@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PayTabs_Sample.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace PayTabs_Sample
 {
@@ -24,6 +21,10 @@ namespace PayTabs_Sample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<PayTabs_SampleContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("PayTabs_SampleContext"))
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
