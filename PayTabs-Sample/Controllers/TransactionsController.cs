@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PayTabs_Sample.Data;
+using PayTabs_Sample.Helpers;
 using PayTabs_Sample.Models;
 
 namespace PayTabs_Sample.Controllers
@@ -54,7 +56,7 @@ namespace PayTabs_Sample.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ProfileId,ServerKey,TranType,CartId,CartCurrency,CartAmount,CartDescription,PaypageLang,ReturnURL,CallbackURL")] Transaction transaction)
+        public async Task<IActionResult> Create([Bind("Id,ProfileId,ServerKey,TranType,TranClass,CartId,CartCurrency,CartAmount,CartDescription,PaypageLang,HideShipping,IsFramed,ReturnURL,CallbackURL")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
@@ -98,6 +100,48 @@ namespace PayTabs_Sample.Controllers
         private bool TransactionExists(int id)
         {
             return _context.Transaction.Any(e => e.Id == id);
+        }
+
+
+        //
+
+        public async Task<Transaction_Response> Pay(int id)
+        {
+            var transaction = await _context.Transaction
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (transaction == null)
+            {
+                return null; // NotFound();
+            }
+
+            Connector c = new Connector();
+            Transaction_Response r = c.Send(transaction);
+
+            return r; // RedirectToAction(nameof(Details), new { id });
+        }
+
+        //
+
+        [HttpPost]
+        public async Task<string> Webhook([FromForm] Transaction_Result content)
+        {
+            bool valid = content.IsValid_Signature();
+
+            var transaction = await _context.Transaction
+                .FirstOrDefaultAsync(m => m.CartId == content.cartId);
+
+            if (transaction == null)
+            {
+                return "No Cart";
+            }
+
+            if (valid)
+            {
+                //_context.Transaction.Remove(transaction);
+                //await _context.SaveChangesAsync();
+            }
+
+            return "Response: " + (valid ? "Valid" : "No valid") + " => " + content;
         }
     }
 }
