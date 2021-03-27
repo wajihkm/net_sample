@@ -1,8 +1,6 @@
 @model PayTabs_Sample.Models.Transaction
 
-@{
-    ViewData["Title"] = "Create";
-}
+@{ ViewData["Title"] = "Create"; }
 
 <h1>Create</h1>
 
@@ -28,6 +26,11 @@
                 <span asp-validation-for="TranType" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="TranClass" class="control-label"></label>
+                <input asp-for="TranClass" class="form-control" />
+                <span asp-validation-for="TranClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="CartId" class="control-label"></label>
                 <input asp-for="CartId" class="form-control" />
                 <span asp-validation-for="CartId" class="text-danger"></span>
@@ -51,6 +54,16 @@
                 <label asp-for="PaypageLang" class="control-label"></label>
                 <input asp-for="PaypageLang" class="form-control" />
                 <span asp-validation-for="PaypageLang" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="HideShipping" /> @Html.DisplayNameFor(model => model.HideShipping)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsFramed" /> @Html.DisplayNameFor(model => model.IsFramed)
+                </label>
             </div>
             <div class="form-group">
                 <label asp-for="ReturnURL" class="control-label"></label>

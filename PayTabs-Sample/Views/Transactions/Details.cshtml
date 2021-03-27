@@ -29,6 +29,12 @@
             @Html.DisplayFor(model => model.TranType)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TranClass)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TranClass)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.CartId)
         </dt>
         <dd class = "col-sm-10">
@@ -57,6 +63,18 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PaypageLang)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HideShipping)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HideShipping)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsFramed)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsFramed)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ReturnURL)
