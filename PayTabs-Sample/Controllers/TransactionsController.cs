@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -142,6 +143,19 @@ namespace PayTabs_Sample.Controllers
             }
 
             return "Response: " + (valid ? "Valid" : "No valid") + " => " + content;
+        }
+
+        //
+
+        [HttpPost]
+        public Transaction_IPN IPN([FromBody] Transaction_IPN ipn)
+        {
+            //using var reader = new StreamReader(Request.Body);
+            //var body = await reader.ReadToEndAsync();
+
+            //return body;
+
+            return ipn;
         }
     }
 }

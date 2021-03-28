@@ -10,11 +10,10 @@ namespace PayTabs_Sample.Models
 
         public bool IsSuccess()
         {
-            if (tran_ref == null || redirect_url == null)
+            if (String.IsNullOrWhiteSpace(tran_ref) || String.IsNullOrWhiteSpace(redirect_url))
+            {
                 return false;
-
-            if (redirect_url.Trim().Length == 0)
-                return false;
+            }
 
             return true;
         }
