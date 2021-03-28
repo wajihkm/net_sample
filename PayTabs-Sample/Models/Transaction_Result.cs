@@ -28,32 +28,35 @@ namespace PayTabs_Sample.Models
 
         //
 
-        public bool IsValid_Signature()
+        public bool IsValid_Signature(string server_key)
         {
-            string server_key = "SRJNLKK2Z2-HWRGM6JDZM-MGMGGNW9JZ";
-
             var dic = this.ToDictionary();
 
-            // 1
+            // 1 : Remove Signature parameter
+
             string signature = dic["signature"];
             dic.Remove("signature");
 
-            // 2
+
+            // 2 : Remove Empty parameters
             dic = dic
                 .Where(k => k.Value != null && k.Value.Trim().Length > 0)
                 .ToDictionary(x => x.Key, x => x.Value);
 
-            // 3
+
+            // 3 : Sort the Parameters ASC
+
             dic = dic
                 .OrderBy(x => x.Key)
                 .ToDictionary(x => x.Key, x => x.Value);
 
-            // 4
+
+            // 4 : Merge the parameters as one String, Encode the values with URL_Encoder
 
             string query = string.Join("&", dic.Select(x => x.Key + "=" + WebUtility.UrlEncode(x.Value)).ToArray());
 
-            // 5
 
+            // 5 : Compute the Hash
 
             using (HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(server_key)))
             {
@@ -68,8 +71,13 @@ namespace PayTabs_Sample.Models
 
                 return hashed_str.Equals(signature);
             }
+        }
 
-            //return false;
+        //
+
+        public bool IsSucceed()
+        {
+            return respStatus.Equals("A");
         }
 
         //

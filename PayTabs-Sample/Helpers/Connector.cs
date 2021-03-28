@@ -1,15 +1,7 @@
-﻿using System;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using PayTabs_Sample.Models;
-using System.Threading.Tasks;
 
 using RestSharp;
-using RestSharp.Authenticators;
-using Newtonsoft.Json.Linq;
 using RestSharp.Serialization.Json;
 
 namespace PayTabs_Sample.Helpers

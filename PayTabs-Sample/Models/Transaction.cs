@@ -10,6 +10,19 @@ namespace PayTabs_Sample.Models
         [JsonIgnore]
         public int Id { get; set; }
 
+        [JsonIgnore]
+        [System.ComponentModel.DefaultValue(false)]
+        public bool TriedToPay { get; set; }
+
+        [JsonIgnore]
+        public bool IsSucceed { get; set; }
+
+        [JsonIgnore]
+        public string Tran_Ref { get; set; }
+
+        [JsonIgnore]
+        public bool IsValid_Signature { get; set; }
+
         //
 
         [JsonProperty(PropertyName = "profile_id")]

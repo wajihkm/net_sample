@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PayTabs_Sample.Data;
 using PayTabs_Sample.Helpers;
@@ -118,31 +113,43 @@ namespace PayTabs_Sample.Controllers
             Connector c = new Connector();
             Transaction_Response r = c.Send(transaction);
 
+            if (r.IsSuccess())
+            {
+                transaction.Tran_Ref = r.tran_ref;
+                transaction.TriedToPay = true;
+
+                _context.Transaction.Update(transaction);
+                await _context.SaveChangesAsync();
+
+                Response.Redirect(r.redirect_url);
+            }
+
             return r; // RedirectToAction(nameof(Details), new { id });
         }
 
         //
 
         [HttpPost]
-        public async Task<string> Webhook([FromForm] Transaction_Result content)
+        public async Task<IActionResult> Webhook([FromForm] Transaction_Result content)
         {
-            bool valid = content.IsValid_Signature();
-
             var transaction = await _context.Transaction
                 .FirstOrDefaultAsync(m => m.CartId == content.cartId);
 
             if (transaction == null)
             {
-                return "No Cart";
+                return NotFound();
             }
 
-            if (valid)
-            {
-                //_context.Transaction.Remove(transaction);
-                //await _context.SaveChangesAsync();
-            }
+            bool valid = content.IsValid_Signature(transaction.ServerKey);
 
-            return "Response: " + (valid ? "Valid" : "No valid") + " => " + content;
+            transaction.IsValid_Signature = valid;
+            transaction.IsSucceed = content.IsSucceed();
+
+            _context.Transaction.Update(transaction);
+            await _context.SaveChangesAsync();
+
+
+            return View(content);
         }
 
         //
