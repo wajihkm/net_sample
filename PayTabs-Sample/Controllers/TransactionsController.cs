@@ -48,8 +48,6 @@ namespace PayTabs_Sample.Controllers
         }
 
         // POST: Transactions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProfileId,ServerKey,TranType,TranClass,CartId,CartCurrency,CartAmount,CartDescription,PaypageLang,HideShipping,IsFramed,ReturnURL,CallbackURL")] Transaction transaction)
@@ -155,14 +153,16 @@ namespace PayTabs_Sample.Controllers
         //
 
         [HttpPost]
-        public Transaction_IPN IPN([FromBody] Transaction_IPN ipn)
+        public void IPN([FromBody] Transaction_IPN ipn)
         {
             //using var reader = new StreamReader(Request.Body);
             //var body = await reader.ReadToEndAsync();
-
+            //System.Console.WriteLine(body);
             //return body;
 
-            return ipn;
+            System.Console.WriteLine(ipn);
+
+            return;
         }
     }
 }
