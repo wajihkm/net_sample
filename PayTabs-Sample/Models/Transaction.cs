@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+using PayTabs_Sample.Helpers;
 
 namespace PayTabs_Sample.Models
 {
@@ -26,6 +27,7 @@ namespace PayTabs_Sample.Models
         //
 
         [JsonProperty(PropertyName = "profile_id")]
+        [Display(Name = "Profile ID")]
         public int ProfileId { get; set; }
 
         [JsonIgnore]
@@ -35,12 +37,15 @@ namespace PayTabs_Sample.Models
         //public string[] PaymentMethods { get; set; }
 
         [JsonProperty(PropertyName = "tran_type")]
+        [Display(Name = "Transaction Type")]
         public string TranType { get; set; }
 
         [JsonProperty(PropertyName = "tran_class")]
+        [Display(Name = "Transaction Class")]
         public string TranClass { get; set; }
 
         [JsonProperty(PropertyName = "cart_id")]
+        [Display(Name = "Cart ID")]
         public string CartId { get; set; }
 
         [JsonProperty(PropertyName = "cart_currency")]
@@ -54,6 +59,7 @@ namespace PayTabs_Sample.Models
 
 
         [JsonProperty(PropertyName = "paypage_lang")]
+        [Display(Name = "Language")]
         public string PaypageLang { get; set; }
 
         //
@@ -64,6 +70,7 @@ namespace PayTabs_Sample.Models
         //
 
         [JsonProperty(PropertyName = "hide_shipping")]
+        [Display(Name = "Hide shipping?")]
         public bool HideShipping { get; set; }
 
         [JsonProperty(PropertyName = "framed")]
@@ -72,9 +79,11 @@ namespace PayTabs_Sample.Models
         //
 
         [JsonProperty(PropertyName = "return")]
+        [Display(Name = "Return URL")]
         public string ReturnURL { get; set; }
 
         [JsonProperty(PropertyName = "callback")]
+        [Display(Name = "Callback URL")]
         public string CallbackURL { get; set; }
 
     }

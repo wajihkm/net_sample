@@ -118,7 +118,7 @@ namespace PayTabs_Sample.Controllers
                 transaction.Tran_Ref = r.tran_ref;
                 transaction.TriedToPay = true;
 
-                _context.Transaction.Update(transaction);
+                _context.Update(transaction);
                 await _context.SaveChangesAsync();
 
                 Response.Redirect(r.redirect_url);
@@ -145,7 +145,7 @@ namespace PayTabs_Sample.Controllers
             transaction.IsValid_Signature = valid;
             transaction.IsSucceed = content.IsSucceed();
 
-            _context.Transaction.Update(transaction);
+            _context.Update(transaction);
             await _context.SaveChangesAsync();
 
 
